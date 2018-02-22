@@ -4,8 +4,6 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include <EngineGlobals.h>
-#include <Runtime/Engine/Classes/Engine/Engine.h>
 // ...
 // Sets default values
 ASHPawn::ASHPawn()
@@ -44,6 +42,7 @@ ASHPawn::ASHPawn()
     
     weaponManager = CreateDefaultSubobject<UAOWeaponManager>(TEXT("WeaponManager"));
     weaponManager->SetupAttachment(mGunVisual);
+    
     
     
 }
