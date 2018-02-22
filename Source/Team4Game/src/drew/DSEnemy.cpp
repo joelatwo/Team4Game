@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DSEnemy.h"
+#include "../../inc/DSEnemy.h"
 #include "Components/SphereComponent.h"
 
 
@@ -30,7 +30,7 @@ void ADSEnemy::BeginPlay()
 void ADSEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
 // Called to bind functionality to input
