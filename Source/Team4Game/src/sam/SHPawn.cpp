@@ -4,7 +4,9 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+// ...
 // Sets default values
 ASHPawn::ASHPawn()
 {
@@ -24,6 +26,10 @@ ASHPawn::ASHPawn()
     mSphereVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
     mSphereVisual->SetupAttachment(RootComponent);
     
+    // Create and position a mesh component so we can see where our gun is
+    mGunVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunRepresentation"));
+    mGunVisual->SetupAttachment(mSphereVisual);
+    
     // Use a spring arm to give the camera smooth, natural-feeling motion.
     USpringArmComponent* SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
     SpringArm->SetupAttachment(RootComponent);
@@ -35,7 +41,11 @@ ASHPawn::ASHPawn()
     // Create a camera and attach to our spring arm
     UCameraComponent* Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
     Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
-
+    
+    weaponManager = CreateDefaultSubobject<UAOWeaponManager>(TEXT("WeaponManager"));
+    weaponManager->SetupAttachment(mGunVisual);
+    
+    
 }
 
 // Called when the game starts or when spawned
@@ -56,15 +66,24 @@ void ASHPawn::Tick(float DeltaTime)
     }
 }
 
+//For some reason the axes are mixed up, so use x component of vector instead of y
 void ASHPawn::Move_YAxis(float AxisValue)
 {
     // Move at 100 units per second forward or backward
     CurrentVelocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
 }
 
+//For some reason the axes are mixed up, so use y component of vector instead of x
 void ASHPawn::Move_XAxis(float AxisValue)
 {
     // Move at 100 units per second right or left
     CurrentVelocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+}
+
+//Ask the weapon manager ot shoot
+void ASHPawn::Shoot() {
+    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Shoot!"));
+    if (weaponManager)
+        weaponManager->Shoot();
 }
 

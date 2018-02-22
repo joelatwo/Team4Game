@@ -1,0 +1,3 @@
+Making an Executable In Unreal
+
+Click File -> Package Product, then choose the appropriate OS. I click Mac. I do not get a Windows option, but I assume it is there for people on Windows machines. I will confirm ASAP. Then, choose a destination for the executable. It will then spend a long time building, and then you will have an executable. Easy as that!

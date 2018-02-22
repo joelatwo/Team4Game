@@ -21,10 +21,15 @@ protected:
     virtual void BeginPlay() override;
     
 private:
+    //Sets up the handling of input
     virtual void SetupInputComponent() override;
 
 private:
+    //tells possessed pawn (player) to move left/right
     void MovePawnX(float AxisValue);
+    //Tells player pawn to move forward/backward
     void MovePawnY(float AxisValue);
+    //Tells player pawn to shoot
+    void Shoot();
 	
 };
