@@ -3,7 +3,6 @@
 #include "../../inc/SHPlayerController.h"
 #include "../../inc/SHPawn.h"
 ASHPlayerController::ASHPlayerController() {
-    
 }
 
 void ASHPlayerController::BeginPlay() {

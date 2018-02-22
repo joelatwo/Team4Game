@@ -4,8 +4,6 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include <EngineGlobals.h>
-#include <Runtime/Engine/Classes/Engine/Engine.h>
 // ...
 // Sets default values
 ASHPawn::ASHPawn()
@@ -46,6 +44,7 @@ ASHPawn::ASHPawn()
     weaponManager->SetupAttachment(mGunVisual);
     
     
+    
 }
 
 // Called when the game starts or when spawned
@@ -82,8 +81,7 @@ void ASHPawn::Move_XAxis(float AxisValue)
 
 //Ask the weapon manager ot shoot
 void ASHPawn::Shoot() {
-    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Shoot!"));
-    if (weaponManager)
+    if (weaponManager != NULL)
         weaponManager->Shoot();
 }
 
