@@ -31,20 +31,12 @@ void UAOWeaponManager::Shoot()
 	FTransform GunTransform = GetComponentTransform();
 
 	UWorld* World = GetWorld();
-	if (World)
-	{
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = (AActor * ) this;
-		//SpawnParams.Instigator = this.Instigator;
-		// Spawn the projectile at the Camera.
-		AAOBullet* Projectile = World->SpawnActor<AAOBullet>((AAOBullet()).GetClass(), GetComponentTransform(), SpawnParams);
-		if (Projectile)
-		{
-			// Set the projectile's initial trajectory.
-			//FVector LaunchDirection = GetComponent.Vector();
-			//Bullet->FireInDirection(LaunchDirection);
-		}
-	}
+	
+	FActorSpawnParameters SpawnParams;
+	//SpawnParams.Owner = (AActor * ) this;
+	
+	AAOBullet* Projectile = GetWorld()->SpawnActor<AAOBullet>(GunTransform.GetTranslation(), GunTransform.Rotator(), SpawnParams);
+
 }
 
 // Called when the game starts

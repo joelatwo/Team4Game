@@ -29,4 +29,5 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		USphereComponent* CollisionComponent;
 	
+	UStaticMeshComponent* Mesh;
 };
