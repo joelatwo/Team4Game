@@ -13,7 +13,7 @@ AAOBullet::AAOBullet()
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	// collision radius
 	CollisionComponent->InitSphereRadius(15.0f);
-	// set root component to be the collusion component
+	// set root component to be the collision component
 	RootComponent = CollisionComponent;
 }
 
