@@ -10,7 +10,9 @@ UCLASS()
 class TEAM4GAME_API ADSEnemy : public APawn
 {
 	GENERATED_BODY()
-
+	//allows for a mesh to be created for our enemies
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* visual;
 public:
 	// Sets default values for this pawn's properties
 	ADSEnemy();
