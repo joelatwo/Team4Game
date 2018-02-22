@@ -16,13 +16,12 @@ AAOBullet::AAOBullet()
 	CollisionComponent->InitSphereRadius(15.0f);
 	// set root component to be the collision component
 	RootComponent = CollisionComponent;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Shoot!"));
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bullet mesh"));
 	
 	auto MeshAsset = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/StarterContent/Props/MaterialSphere.MaterialSphere'"));
 	Mesh->SetStaticMesh(MeshAsset.Object);
-
+	Mesh->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
