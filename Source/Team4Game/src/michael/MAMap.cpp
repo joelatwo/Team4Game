@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "../../inc/cMap.h"
+#include "../../inc/MAMap.h"
 
 /*** TODO ***
 * make the base floor a single instance of a single mesh? instead of a consistent array,
@@ -14,7 +14,7 @@
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::White,text)
 
 // Sets default values
-AcMap::AcMap()
+AMAMap::AMAMap()
 {
 
 	mapGen();
@@ -23,7 +23,7 @@ AcMap::AcMap()
 
 //too much is going on in this function,
 //I'll be splitting this up into multiple...or at least simplifying it
-void AcMap::mapGen() {
+void AMAMap::mapGen() {
 
 	std::mt19937 generator(time(0));
 	std::uniform_real_distribution<float> dis(0.0, 1.0);
@@ -70,7 +70,7 @@ void AcMap::mapGen() {
 		}
 	}
 }
-void AcMap::update(int Grid[][floorHeight]) {
+void AMAMap::update(int Grid[][floorHeight]) {
 	int turnOn = 4;
 	int turnOff = 4;
 	int newGrid[floorWidth][floorHeight];
@@ -91,7 +91,7 @@ void AcMap::update(int Grid[][floorHeight]) {
 }
 
 //count num of Neighboring cells with value 1
-int AcMap::getNeighbors(int x, int y, int Grid[][floorHeight]) {
+int AMAMap::getNeighbors(int x, int y, int Grid[][floorHeight]) {
 	int count = 0;
 	if (x < floorWidth - 1) {
 		count += Grid[x + 1][y];
@@ -116,13 +116,13 @@ int AcMap::getNeighbors(int x, int y, int Grid[][floorHeight]) {
 	return count;
 }
 // Called when the game starts or when spawned
-void AcMap::BeginPlay()
+void AMAMap::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
 // Called every frame
-void AcMap::Tick(float DeltaTime)
+void AMAMap::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
