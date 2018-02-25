@@ -10,7 +10,7 @@
 #include "Engine/World.h"
 #include <random>
 #include <ctime>
-#include "cMap.generated.h"
+#include "MAMap.generated.h"
 
 
 //number of cells in X and Y
@@ -22,7 +22,7 @@
 #define cellHeight 100
 
 UCLASS()
-class TEAM4GAME_API AcMap : public AActor
+class TEAM4GAME_API AMAMap : public AActor
 {
 	GENERATED_BODY()
 	
@@ -30,7 +30,7 @@ public:
 	// Sets default values for this actor's properties
 	int tileHeight;
 	int tileWidth;
-	AcMap();
+	AMAMap();
 	void update(int Grid[][floorHeight]);
 	int getNeighbors(int x, int y, int Grid[][floorHeight]);
 
