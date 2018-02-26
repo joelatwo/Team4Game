@@ -2,8 +2,7 @@
 
 #include "../../inc/SHPawn.h"
 #include "Components/SphereComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
+
 // ...
 // Sets default values
 ASHPawn::ASHPawn()
@@ -29,17 +28,19 @@ ASHPawn::ASHPawn()
     mGunVisual->SetupAttachment(mSphereVisual);
     
     // Use a spring arm to give the camera smooth, natural-feeling motion.
-    USpringArmComponent* SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
+    SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
     SpringArm->SetupAttachment(RootComponent);
-    SpringArm->RelativeRotation = FRotator(-45.f, 0.f, 0.f);
+    SpringArm->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
     SpringArm->TargetArmLength = 1200.0f;
     SpringArm->bEnableCameraLag = true;
     SpringArm->CameraLagSpeed = 3.0f;
+    SpringArm->bUsePawnControlRotation = false;
+    SpringArm->bAbsoluteRotation = true;
     
     // Create a camera and attach to our spring arm
-    UCameraComponent* Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
+    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
     Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
-    
+    Camera->bAbsoluteRotation = true;
     weaponManager = CreateDefaultSubobject<UAOWeaponManager>(TEXT("WeaponManager"));
     weaponManager->SetupAttachment(mGunVisual);
     
@@ -51,7 +52,6 @@ ASHPawn::ASHPawn()
 void ASHPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -65,23 +65,35 @@ void ASHPawn::Tick(float DeltaTime)
     }
 }
 
+bool ASHPawn::GetTest() {
+    return mTest;
+}
+
 //For some reason the axes are mixed up, so use x component of vector instead of y
 void ASHPawn::Move_YAxis(float AxisValue)
 {
     // Move at 100 units per second forward or backward
-    CurrentVelocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+    CurrentVelocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 300.0f;
 }
 
 //For some reason the axes are mixed up, so use y component of vector instead of x
 void ASHPawn::Move_XAxis(float AxisValue)
 {
     // Move at 100 units per second right or left
-    CurrentVelocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+    CurrentVelocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 300.0f;
 }
 
 //Ask the weapon manager ot shoot
 void ASHPawn::Shoot() {
     if (weaponManager != NULL)
         weaponManager->Shoot();
+}
+
+void ASHPawn::LookDir(FVector pos) {
+    FVector dir = pos - GetActorLocation();
+    FRotator r = pos.Rotation();
+    r = FRotator(0,r.Yaw,0);
+    //UE_LOG(LogTemp, Warning, TEXT("r: %s"), *dir.ToString());
+    SetActorRotation(r);
 }
 

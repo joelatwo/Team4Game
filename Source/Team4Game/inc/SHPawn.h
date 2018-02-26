@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "AOWeaponManager.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 #include "SHPawn.generated.h"
 
 UCLASS()
@@ -22,6 +24,17 @@ class TEAM4GAME_API ASHPawn : public APawn
     
     UPROPERTY(EditAnywhere)
     UAOWeaponManager* weaponManager;
+    
+    UPROPERTY(EditAnywhere)
+    USpringArmComponent* SpringArm;
+    
+    UPROPERTY(EditAnywhere)
+    UCameraComponent* Camera;
+    
+    UPROPERTY(EditAnywhere)
+    bool mTest = false;
+    
+    
 public:
 	// Sets default values for this pawn's properties
 	ASHPawn();
@@ -32,13 +45,14 @@ protected:
 public:	
     // Called every frame; sets position of player
 	virtual void Tick(float DeltaTime) override;
-
+    bool GetTest();
     //Move left/right
     void Move_XAxis(float AxisValue);
     //Move forward/backward
     void Move_YAxis(float AxisValue);
     //Request that a bullet is shot
     void Shoot();
+    void LookDir(FVector pos);
 
 private:
     //Input variables
