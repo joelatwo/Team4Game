@@ -1,6 +1,7 @@
 README
 
-**Source code is all within the appropriate folders in the Source folder**
+**Source code is all within the appropriate folders in the Source folder.
+Headers are in the /inc folder and classes are in the /src folder.**
 
 DOWNLOAD CODE
 Clone the Github project if you haven't. If you have, sync/refresh the project to get changes.
