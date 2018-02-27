@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "CHGameManager.h"
+#include "../../inc/CHGameManager.h"
 
 
 void ACHGameManager::generateMap()

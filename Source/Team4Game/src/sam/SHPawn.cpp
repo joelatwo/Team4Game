@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../../inc/SHPawn.h"
-#include "Components/SphereComponent.h"
+#include "../../inc/MAMap.h"
 
 // ...
 // Sets default values
@@ -14,10 +14,11 @@ ASHPawn::ASHPawn()
     AutoPossessPlayer = EAutoReceiveInput::Player0;
     
     // Our root component will be a sphere that reacts to physics
-    USphereComponent* SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
+    SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
     SetRootComponent(SphereComponent);
     SphereComponent->InitSphereRadius(40.0f);
     SphereComponent->SetCollisionProfileName(TEXT("Pawn"));
+    
     
     // Create and position a mesh component so we can see where our sphere is
     mSphereVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
@@ -52,6 +53,7 @@ ASHPawn::ASHPawn()
 void ASHPawn::BeginPlay()
 {
 	Super::BeginPlay();
+    AMAMap *levelMap = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(),FActorSpawnParameters());
 }
 
 // Called every frame

@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "AOWeaponManager.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/SphereComponent.h"
 #include "Camera/CameraComponent.h"
 #include "SHPawn.generated.h"
 
@@ -33,6 +34,9 @@ class TEAM4GAME_API ASHPawn : public APawn
     
     UPROPERTY(EditAnywhere)
     bool mTest = false;
+    
+    UPROPERTY(EditAnywhere)
+    USphereComponent* SphereComponent;
     
     
 public:
