@@ -15,7 +15,7 @@ class TEAM4GAME_API ADSEnemy : public APawn
 	UStaticMeshComponent* visual;
 public:
 	// Sets default values for this pawn's properties
-	ADSEnemy();
+	ADSEnemy(const class FObjectInitializer &Initializer);
 
 protected:
 	// Called when the game starts or when spawned
