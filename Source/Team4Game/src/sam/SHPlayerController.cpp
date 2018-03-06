@@ -17,15 +17,25 @@ void ASHPlayerController::BeginPlay() {
     Super::BeginPlay();
     if (GetPawn()) {
         test = Cast<ASHPawn>(this->GetPawn())->GetTest();
+        stress = Cast<ASHPawn>(this->GetPawn())->GetStress();
     }
+}
+
+void ASHPlayerController::Stress() {
+    MovePawnY(FMath::FRandRange(-1.0,1.0));
+    MovePawnX(FMath::FRandRange(-1.0,1.0));
+    //if (!test)
+    //    Shoot();
+    
 }
 
 void ASHPlayerController::AIKill() {
     if (GetPawn() == NULL) return;
     float dist = -1;
-    for (TActorIterator<ADSEnemy> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+    for (TActorIterator<ACharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
     {
         float tempDist = GetPawn()->GetDistanceTo(*ActorItr);
+        //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *ActorItr->GetActorLabel());
         if (dist == -1 ||  tempDist < dist) {
             dist = tempDist;
             target = *ActorItr;
@@ -36,6 +46,7 @@ void ASHPlayerController::AIKill() {
 void ASHPlayerController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    if (stress) Stress();
     if (!test)
         LookDir();
     else {
@@ -77,5 +88,5 @@ void ASHPlayerController::LookDir() {
     this->DeprojectMousePositionToWorld(worldPos, dir);
     //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *worldPos.ToString());
     //UE_LOG(LogTemp, Warning, TEXT("dir: %s"), *dir.ToString());
-    Cast<ASHPawn>(this->GetPawn())->LookDir(dir);
+    Cast<ASHPawn>(this->GetPawn())->LookMouse(dir);
 }

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "DSEnemy.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "SHPlayerController.generated.h"
 /**
  * 
@@ -28,11 +30,13 @@ private:
     //Sets up the handling of input
     virtual void SetupInputComponent() override;
     bool test = false;
+    bool stress = false;
     FVector MouseLocation;
     FVector MouseDirection;
 
 private:
-    ADSEnemy* target;
+    ACharacter* target;
+    void Stress();
     void AIKill();
     void AimTarget();
     //tells possessed pawn (player) to move left/right
