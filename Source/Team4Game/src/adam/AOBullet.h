@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
+#include "Runtime/Engine/Classes/GameFramework/ProjectileMovementComponent.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -21,6 +22,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Function that initializes the projectile's velocity in the shoot direction.
+	void FireInDirection(const FVector& ShootDirection);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -29,5 +33,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		USphereComponent* CollisionComponent;
 	
+	// bullet mesh
 	UStaticMeshComponent* Mesh;
+
+	// Projectile movement component.
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+		UProjectileMovementComponent* ProjectileMovementComponent;
 };

@@ -6,6 +6,8 @@
 // Sets default values
 AAOBullet::AAOBullet()
 {
+	// bullet disappears after 3 seconds
+	InitialLifeSpan = 3.0f;
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,7 +15,7 @@ AAOBullet::AAOBullet()
 	// make sphere for collision representation
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	// collision radius
-	CollisionComponent->InitSphereRadius(15.0f);
+	CollisionComponent->InitSphereRadius(1.0f);
 	// set root component to be the collision component
 	RootComponent = CollisionComponent;
 
@@ -22,6 +24,19 @@ AAOBullet::AAOBullet()
 	auto MeshAsset = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/StarterContent/Props/MaterialSphere.MaterialSphere'"));
 	Mesh->SetStaticMesh(MeshAsset.Object);
 	Mesh->SetupAttachment(RootComponent);
+
+	// Use this component to drive this projectile's movement.
+	float speed = 3000.0f;// pretty fast
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
+	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
+	ProjectileMovementComponent->InitialSpeed = speed;
+	ProjectileMovementComponent->MaxSpeed = speed;
+	ProjectileMovementComponent->bRotationFollowsVelocity = true;
+	ProjectileMovementComponent->bShouldBounce = true;
+	ProjectileMovementComponent->Bounciness = 0.3f;
+
+	// fire in direction
+	FireInDirection(this->GetActorForwardVector());
 }
 
 // Called when the game starts or when spawned
@@ -38,3 +53,8 @@ void AAOBullet::Tick(float DeltaTime)
 
 }
 
+// Function that initializes the projectile's velocity in the shoot direction.
+void AAOBullet::FireInDirection(const FVector& ShootDirection)
+{
+	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+}
