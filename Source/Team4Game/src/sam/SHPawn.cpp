@@ -53,7 +53,7 @@ ASHPawn::ASHPawn()
 void ASHPawn::BeginPlay()
 {
 	Super::BeginPlay();
-    AMAMap *levelMap = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(),FActorSpawnParameters());
+    AMAMap *levelMap = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
 }
 
 // Called every frame
@@ -69,6 +69,10 @@ void ASHPawn::Tick(float DeltaTime)
 
 bool ASHPawn::GetTest() {
     return mTest;
+}
+
+bool ASHPawn::GetStress() {
+    return mStress;
 }
 
 //For some reason the axes are mixed up, so use x component of vector instead of y
@@ -93,6 +97,13 @@ void ASHPawn::Shoot() {
 
 void ASHPawn::LookDir(FVector pos) {
     FVector dir = pos - GetActorLocation();
+    FRotator r = dir.Rotation();
+    r = FRotator(0,r.Yaw,0);
+    //UE_LOG(LogTemp, Warning, TEXT("r: %s"), *dir.ToString());
+    SetActorRotation(r);
+}
+
+void ASHPawn::LookMouse(FVector pos) {
     FRotator r = pos.Rotation();
     r = FRotator(0,r.Yaw,0);
     //UE_LOG(LogTemp, Warning, TEXT("r: %s"), *dir.ToString());

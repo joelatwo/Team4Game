@@ -36,6 +36,9 @@ class TEAM4GAME_API ASHPawn : public APawn
     bool mTest = false;
     
     UPROPERTY(EditAnywhere)
+    bool mStress = false;
+    
+    UPROPERTY(EditAnywhere)
     USphereComponent* SphereComponent;
     
     
@@ -50,6 +53,7 @@ public:
     // Called every frame; sets position of player
 	virtual void Tick(float DeltaTime) override;
     bool GetTest();
+    bool GetStress();
     //Move left/right
     void Move_XAxis(float AxisValue);
     //Move forward/backward
@@ -57,6 +61,7 @@ public:
     //Request that a bullet is shot
     void Shoot();
     void LookDir(FVector pos);
+    void LookMouse(FVector pos);
 
 private:
     //Input variables
