@@ -62,6 +62,8 @@ public:
     void Shoot();
     void LookDir(FVector pos);
     void LookMouse(FVector pos);
+    class USHPawnMovementComponent* MovementComponent;
+    //virtual UPawnMovementComponent* GetMovementComponent() const
 
 private:
     //Input variables

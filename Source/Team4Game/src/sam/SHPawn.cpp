@@ -2,6 +2,7 @@
 
 #include "../../inc/SHPawn.h"
 #include "../../inc/MAMap.h"
+#include "../../inc/SHPawnMovementComponent.h"
 
 // ...
 // Sets default values
@@ -42,10 +43,13 @@ ASHPawn::ASHPawn()
     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
     Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
     Camera->bAbsoluteRotation = true;
+    
     weaponManager = CreateDefaultSubobject<UAOWeaponManager>(TEXT("WeaponManager"));
     weaponManager->SetupAttachment(mGunVisual);
     
-    
+    // Create an instance of our movement component, and tell it to update our root component.
+    MovementComponent = CreateDefaultSubobject<USHPawnMovementComponent>(TEXT("PawnMovementComponent"));
+    MovementComponent->UpdatedComponent = RootComponent;
     
 }
 
@@ -77,16 +81,24 @@ bool ASHPawn::GetStress() {
 
 //For some reason the axes are mixed up, so use x component of vector instead of y
 void ASHPawn::Move_YAxis(float AxisValue)
-{
+    {
+        if (MovementComponent && (MovementComponent->UpdatedComponent == RootComponent))
+    {
+        MovementComponent->AddInputVector(FVector(1,0,0) * AxisValue);
+    }
     // Move at 100 units per second forward or backward
-    CurrentVelocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 300.0f;
+    //CurrentVelocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 300.0f;
 }
 
 //For some reason the axes are mixed up, so use y component of vector instead of x
 void ASHPawn::Move_XAxis(float AxisValue)
 {
+    if (MovementComponent && (MovementComponent->UpdatedComponent == RootComponent))
+    {
+        MovementComponent->AddInputVector(FVector(0,1,0) * AxisValue);
+    }
     // Move at 100 units per second right or left
-    CurrentVelocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 300.0f;
+    //CurrentVelocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 300.0f;
 }
 
 //Ask the weapon manager ot shoot
