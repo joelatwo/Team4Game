@@ -24,7 +24,7 @@ class TEAM4GAME_API ASHPawn : public APawn
     UStaticMeshComponent* mGunVisual;
     
     UPROPERTY(EditAnywhere)
-    UAOWeaponManager* weaponManager;
+    UAOWeaponManager* WeaponManager;
     
     UPROPERTY(EditAnywhere)
     USpringArmComponent* SpringArm;
@@ -50,20 +50,57 @@ protected:
     // Called when the game starts or when spawned;
 	virtual void BeginPlay() override;
 public:	
-    // Called every frame; sets position of player
+    /**
+     * Called every frame. Sets position of player. This is called automatically.
+     * @param DeltaTime - the amount of time the last frame took
+     */
 	virtual void Tick(float DeltaTime) override;
+    /**
+     * Used by the player controller to determine if the test mode is set; gets mTest
+     * @return mTest - true/false
+     */
     bool GetTest();
+    /**
+     * Sets mTest
+     * @param b - the value to set mTest to
+     */
+    void SetTest(bool b);
+    /**
+     * Used by the player controller to determine if the stress mode is set; gets mStress
+     * @return mStress - true/false
+     */
     bool GetStress();
-    //Move left/right
+    /**
+     * Sets mStress
+     * @param b - the value to set mStress to; true/false
+     */
+    void SetStress(bool b);
+    /**
+     * Called by player controller to move left/right
+     * @param AxisValue - a value -1 - 1 that specifies how much to move
+     */
     void Move_XAxis(float AxisValue);
-    //Move forward/backward
+    /**
+     * Called by player controller to move up/down
+     * @param AxisValue - a value -1 - 1 that specifies how much to move
+     */
     void Move_YAxis(float AxisValue);
-    //Request that a bullet is shot
+    /**
+     * Requests that a bullet is shot
+     */
     void Shoot();
+    /**
+     * Looks at a specified point
+     * @param pos - a vector specifying the point to look at
+     */
     void LookDir(FVector pos);
+    /**
+     * Look at the mouse
+     * @param pos - the direction of the mouse
+     */
     void LookMouse(FVector pos);
+    //Reference to the movement component
     class USHPawnMovementComponent* MovementComponent;
-    //virtual UPawnMovementComponent* GetMovementComponent() const
 
 private:
     //Input variables

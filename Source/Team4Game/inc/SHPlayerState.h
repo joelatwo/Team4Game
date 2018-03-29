@@ -15,10 +15,14 @@ class TEAM4GAME_API ASHPlayerState : public APlayerState
 	GENERATED_BODY()
 	
 private:
-    float health;
+    float Health;
 public:
-    float getHealth();
-    bool setHealth(float h);
+    //get player health
+    float GetHealth();
+    //set the player health; always returns true
+    bool SetHealth(float h);
+    //subtract an amount from the player health; return true if player dead, false if not dead
+    bool DoDamage(float d);
 	
 	
 };

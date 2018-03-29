@@ -1,0 +1,51 @@
+Coding Standards
+
+The following rules are picked directly from the coding standards of Epic Games
+(https://docs.unrealengine.com/en-us/Programming/Development/CodingStandard). If this file doesn't specifically address a rule, follow the guidelines from that link.
+
+== Naming Conventions == 
+The first letter of each word in a name (e.g. type or variable) is capitalized, and there is usually no underscore between words. For example, Health and UPrimitiveComponent, but not lastMouseCoordinates or delta_coordinates.
+
+Type names are prefixed with an additional upper-case letter to distinguish them from variable names. For example, FSkin is a type name, and Skin is an instance of a FSkin.
+
+Template classes are prefixed by T.
+
+Classes that inherit from UObject are prefixed by U.
+
+Classes that inherit from AActor are prefixed by A.
+
+Classes that inherit from SWidget are prefixed by S.
+
+Classes that are abstract interfaces are prefixed by I.
+
+Enums are prefixed by E.
+
+Boolean variables must be prefixed by b (e.g. "bPendingDestruction", or "bHasFadedIn").
+
+Most other classes are prefixed by F, though some subsystems use other letters.
+
+Typedefs should be prefixed by whatever is appropriate for that type: F if it's a typedef of a struct, U if it's a typedef of a UObject etc.
+
+== Commenting Styles == 
+Frequently comment your code. Your comments should say what the intent of a piece of code is, not say how your code does it. We are shooting for one brief line of comment per every 3 lines of C++ code.
+
+In header files, above each function create a comment with the following information:
+	* the purpose of the function
+	* details on the parameters (e.g. what they should hold, range of expected values)
+	* expected return value
+Do not explain what goes on inside a function in a comment in a header file. Document the implementation details of a function inside the function implementation.
+
+== Indentation ==
+Use tabs. Set tab size to 4 characters. Braces appear on their own line, like so:
+	if (TannicAcid < 10)
+		{
+			UE_LOG(LogCategory, Log, TEXT("Low Acid"));
+		}
+		else if (TannicAcid < 100)
+		{
+			UE_LOG(LogCategory, Log, TEXT("Medium Acid"));
+		}
+		else
+		{
+			UE_LOG(LogCategory, Log, TEXT("High Acid"));
+		}

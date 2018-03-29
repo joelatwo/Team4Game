@@ -4,24 +4,24 @@
 #include "../../inc/SHPawn.h"
 #include "../../inc/SHPlayerCameraManager.h"
 #include "EngineUtils.h"
-ASHPlayerController::ASHPlayerController() {
-    PrimaryActorTick.bCanEverTick = true;    //PlayerCameraManagerClass = ASHPlayerCameraManager;
-    
-    //PlayerCameraManagerClass = ASHPlayerCameraManager::StaticClass();
-    //if (GetPawn())
-    //    PlayerCameraManager->SetViewTarget(GetPawn());
-    //PlayerCameraManager->SetViewTarget(GetPawn(),FViewTargetTransitionParams());
+
+ASHPlayerController::ASHPlayerController()
+{
+    PrimaryActorTick.bCanEverTick = true;
 }
 
-void ASHPlayerController::BeginPlay() {
+void ASHPlayerController::BeginPlay()
+{
     Super::BeginPlay();
-    if (GetPawn()) {
-        test = Cast<ASHPawn>(this->GetPawn())->GetTest();
-        stress = Cast<ASHPawn>(this->GetPawn())->GetStress();
+    if (GetPawn())
+    {
+        bTest = Cast<ASHPawn>(this->GetPawn())->GetTest();
+        bStress = Cast<ASHPawn>(this->GetPawn())->GetStress();
     }
 }
 
-void ASHPlayerController::Stress() {
+void ASHPlayerController::Stress()
+{
     MovePawnY(FMath::FRandRange(-1.0,1.0));
     MovePawnX(FMath::FRandRange(-1.0,1.0));
     //if (!test)
@@ -36,7 +36,8 @@ void ASHPlayerController::AIKill() {
     {
         float tempDist = GetPawn()->GetDistanceTo(*ActorItr);
         //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *ActorItr->GetActorLabel());
-        if (dist == -1 ||  tempDist < dist) {
+        if (dist == -1 ||  tempDist < dist)
+        {
             dist = tempDist;
             target = *ActorItr;
         }
@@ -46,44 +47,56 @@ void ASHPlayerController::AIKill() {
 void ASHPlayerController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    if (stress) Stress();
-    if (!test)
+    if (bStress)
+    {
+        Stress();
+    }
+    if (!bTest)
+    {
         LookDir();
-    else {
+    }
+    else
+    {
         if (target == NULL) AIKill();
         if (target != NULL) AimTarget();
     }
 }
 
-void ASHPlayerController::SetupInputComponent() {
+void ASHPlayerController::SetupInputComponent()
+{
     Super::SetupInputComponent();
-    if (!test) {
+    if (!bTest)
+    {
         InputComponent->BindAxis("MoveX", this, &ASHPlayerController::MovePawnX);
         InputComponent->BindAxis("MoveY", this, &ASHPlayerController::MovePawnY);
         InputComponent->BindAction("Shoot", IE_Pressed, this, &ASHPlayerController::Shoot);
-        
     }
 }
 
-void ASHPlayerController::MovePawnX(float AxisValue) {
+void ASHPlayerController::MovePawnX(float AxisValue)
+{
     Cast<ASHPawn>(this->GetPawn())->Move_XAxis(AxisValue);
     
 }
 
-void ASHPlayerController::MovePawnY(float AxisValue) {
+void ASHPlayerController::MovePawnY(float AxisValue)
+{
     Cast<ASHPawn>(this->GetPawn())->Move_YAxis(AxisValue);
 }
 
-void ASHPlayerController::Shoot() {
+void ASHPlayerController::Shoot()
+{
     Cast<ASHPawn>(this->GetPawn())->Shoot();
 }
 
-void ASHPlayerController::AimTarget() {
+void ASHPlayerController::AimTarget()
+{
     Cast<ASHPawn>(this->GetPawn())->LookDir(target->GetActorLocation());
     Shoot();
 }
 
-void ASHPlayerController::LookDir() {
+void ASHPlayerController::LookDir()
+{
     FVector worldPos, dir;
     this->DeprojectMousePositionToWorld(worldPos, dir);
     //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *worldPos.ToString());

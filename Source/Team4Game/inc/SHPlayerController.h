@@ -29,8 +29,8 @@ protected:
 private:
     //Sets up the handling of input
     virtual void SetupInputComponent() override;
-    bool test = false;
-    bool stress = false;
+    bool bTest = false;
+    bool bStress = false;
     FVector MouseLocation;
     FVector MouseDirection;
 

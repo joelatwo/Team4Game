@@ -11,13 +11,26 @@ SHPlayerState::~SHPlayerState()
 }*/
 
 
-float ASHPlayerState::getHealth()
+float ASHPlayerState::GetHealth()
 {
-    return health;
+    return Health;
 }
 
-bool ASHPlayerState::setHealth(float h)
+bool ASHPlayerState::SetHealth(float h)
 {
-    health = h;
+    Health = h;
     return true;
+}
+
+bool ASHPlayerState::DoDamage(float d)
+{
+    Health -= d;
+    if (Health < 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
