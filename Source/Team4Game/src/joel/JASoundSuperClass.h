@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include <string>
+//#include <string>
 
 /**
  * 
@@ -16,5 +16,5 @@ public:
 protected:
 	void PlaySoundEffect();
 	int UpdateVolume(int NewVolume);
-	string SoundFileName;
+	FString SoundFileName;
 };

@@ -26,8 +26,8 @@ ASHPawn::ASHPawn()
     mSphereVisual->SetupAttachment(RootComponent);
     
     // Create and position a mesh component so we can see where our gun is
-    mGunVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunRepresentation"));
-    mGunVisual->SetupAttachment(mSphereVisual);
+    //mGunVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunRepresentation"));
+    //mGunVisual->SetupAttachment(mSphereVisual);
     
     // Use a spring arm to give the camera smooth, natural-feeling motion.
     SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
@@ -45,7 +45,7 @@ ASHPawn::ASHPawn()
     Camera->bAbsoluteRotation = true;
     
     WeaponManager = CreateDefaultSubobject<UAOWeaponManager>(TEXT("WeaponManager"));
-    WeaponManager->SetupAttachment(mGunVisual);
+    WeaponManager->SetupAttachment(mSphereVisual);
     
     // Create an instance of our movement component, and tell it to update our root component.
     MovementComponent = CreateDefaultSubobject<USHPawnMovementComponent>(TEXT("PawnMovementComponent"));

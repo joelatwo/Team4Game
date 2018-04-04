@@ -20,7 +20,7 @@ class TEAM4GAME_API ASHPawn : public APawn
     UStaticMeshComponent* mSphereVisual;
     
     //This allows the mesh to be set within Unreal
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere)
     UStaticMeshComponent* mGunVisual;
     
     UPROPERTY(EditAnywhere)
@@ -88,7 +88,7 @@ public:
     /**
      * Requests that a bullet is shot
      */
-    void Shoot();
+    virtual void Shoot();
     /**
      * Looks at a specified point
      * @param pos - a vector specifying the point to look at
