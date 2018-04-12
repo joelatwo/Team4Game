@@ -29,9 +29,14 @@ void AMAMap::mapGen() {
 	std::uniform_real_distribution<float> dis(0.0, 1.0);
 	//mesh:  100^3 cube
 	static ConstructorHelpers::FObjectFinder<class UStaticMesh> floorMesh(TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube'"));
-
+	static ConstructorHelpers::FObjectFinder<class UMaterial> floorMat(TEXT("Material'/Game/TwinStick/Meshes/GreenMaterial.GreenMaterial'"));
 	floorMeshComponent = NewObject<UInstancedStaticMeshComponent>(this, TEXT("BLOCK"));
+	floorMaterial = floorMat.Object;
+	bool bNeedsRecompile;
+	floorMaterial->SetMaterialUsage(bNeedsRecompile, MATUSAGE_InstancedStaticMeshes);
 	floorMeshComponent->SetStaticMesh(floorMesh.Object);
+    	
+	floorMeshComponent->SetMaterial(0, floorMaterial);
 
 	RootComponent = floorMeshComponent;
 	//floorMeshComponent->AddInstance(FTransform(rotateQ, position, floorScale));
