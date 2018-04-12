@@ -39,6 +39,9 @@ public:
 		class UInstancedStaticMeshComponent *floorMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 		class UInstancedStaticMeshComponent *wallMeshComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Material")
+		class UMaterial* floorMaterial;
+
 
 protected:
 	// Called when the game starts or when spawned
