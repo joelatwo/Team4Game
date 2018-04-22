@@ -3,26 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerState.h"
-#include "SHPlayerState.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class TEAM4GAME_API ASHPlayerState : public APlayerState
+class TEAM4GAME_API SHPlayerState
 {
-	GENERATED_BODY()
 	
 private:
     float Health;
 public:
+    SHPlayerState();
+    ~SHPlayerState();
     //get player health
     float GetHealth();
     //set the player health; always returns true
     bool SetHealth(float h);
     //subtract an amount from the player health; return true if player dead, false if not dead
-    bool DoDamage(float d);
+    virtual bool DoDamage(float d);
 	
 	
 };

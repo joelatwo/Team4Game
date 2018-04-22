@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../../inc/SHPawn.h"
-#include "../../inc/MAMap.h"
+#include "../../inc/SHArmor.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "../../inc/SHPawnMovementComponent.h"
 
 // ...
@@ -15,41 +16,57 @@ ASHPawn::ASHPawn()
     AutoPossessPlayer = EAutoReceiveInput::Player0;
     
     // Our root component will be a sphere that reacts to physics
-    SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
+    USphereComponent* SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
     SetRootComponent(SphereComponent);
     SphereComponent->InitSphereRadius(40.0f);
     SphereComponent->SetCollisionProfileName(TEXT("Pawn"));
+    SphereComponent->SetNotifyRigidBodyCollision(true);
+    SphereComponent->OnComponentHit.AddDynamic(this, &ASHPawn::OnHit);
     
     
     // Create and position a mesh component so we can see where our sphere is
-    mSphereVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
+    UStaticMeshComponent* mSphereVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
     mSphereVisual->SetupAttachment(RootComponent);
+    static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/TwinStick/Meshes/TwinStickUFO.TwinStickUFO'"));
+    UStaticMesh* Asset = MeshAsset.Object;
+    mSphereVisual->SetStaticMesh(Asset);
     
     // Create and position a mesh component so we can see where our gun is
     //mGunVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunRepresentation"));
     //mGunVisual->SetupAttachment(mSphereVisual);
     
     // Use a spring arm to give the camera smooth, natural-feeling motion.
-    SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
+    USpringArmComponent* SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
     SpringArm->SetupAttachment(RootComponent);
+    SpringArm->bUsePawnControlRotation = false;
+    SpringArm->bDoCollisionTest = false;
+    SpringArm->bAbsoluteRotation = true;
     SpringArm->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
     SpringArm->TargetArmLength = 1200.0f;
     SpringArm->bEnableCameraLag = true;
     SpringArm->CameraLagSpeed = 3.0f;
-    SpringArm->bUsePawnControlRotation = false;
-    SpringArm->bAbsoluteRotation = true;
+    
     
     // Create a camera and attach to our spring arm
-    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
-    Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+    UCameraComponent* Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
     Camera->bAbsoluteRotation = true;
+    Camera->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
+    Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
     
     WeaponManager = CreateDefaultSubobject<UAOWeaponManager>(TEXT("WeaponManager"));
     WeaponManager->SetupAttachment(mSphereVisual);
+    WeaponManager->RelativeLocation = FVector(25.f, 0, 0);
     
     // Create an instance of our movement component, and tell it to update our root component.
     MovementComponent = CreateDefaultSubobject<USHPawnMovementComponent>(TEXT("PawnMovementComponent"));
     MovementComponent->UpdatedComponent = RootComponent;
+    
+    PlayerState = new SHPlayerState;
+    PlayerState->SetHealth(1000);
+    PlayerState = new SHArmor(50.0, PlayerState);
+    
+    hitCounter = 0;
+    hitCooldown = 1;
     
 }
 
@@ -57,38 +74,13 @@ ASHPawn::ASHPawn()
 void ASHPawn::BeginPlay()
 {
 	Super::BeginPlay();
-    AMAMap *LevelMap = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
 }
 
 // Called every frame
 void ASHPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    if (!CurrentVelocity.IsZero())
-    {
-        FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
-        SetActorLocation(NewLocation);
-    }
-}
-
-bool ASHPawn::GetTest()
-{
-    return mTest;
-}
-
-void ASHPawn::SetTest(bool b)
-{
-    mTest = b;
-}
-
-bool ASHPawn::GetStress()
-{
-    return mStress;
-}
-
-void ASHPawn::SetStress(bool b)
-{
-    mStress = b;
+    hitCounter += DeltaTime;
 }
 
 //For some reason the axes are mixed up, so use x component of vector instead of y
@@ -132,4 +124,18 @@ void ASHPawn::LookMouse(FVector pos)
     //UE_LOG(LogTemp, Warning, TEXT("r: %s"), *dir.ToString());
     SetActorRotation(r);
 }
+
+void ASHPawn::OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    if (hitCounter > hitCooldown && OtherActor->GetActorLabel().Contains(TEXT("DSEnemy")))
+    {
+        hitCounter = 0;
+        bool dead = PlayerState->DoDamage(250);
+        if (dead)
+        {
+            //GameOver
+        }
+    }
+}
+
 

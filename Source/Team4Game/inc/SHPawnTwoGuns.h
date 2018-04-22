@@ -14,11 +14,9 @@ class TEAM4GAME_API ASHPawnTwoGuns : public ASHPawn
 {
     GENERATED_BODY()
     
-    UPROPERTY(EditAnywhere)
-    UAOWeaponManager* WeaponManager1;
+    
 protected:
-    // Called when the game starts or when spawned;
-    //virtual void BeginPlay() override;
+    UAOWeaponManager* WeaponManager1;
 public:
 	ASHPawnTwoGuns();
 	~ASHPawnTwoGuns();

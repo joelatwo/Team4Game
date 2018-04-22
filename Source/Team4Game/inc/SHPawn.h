@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "AOWeaponManager.h"
+#include "SHPlayerState.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/SphereComponent.h"
 #include "Camera/CameraComponent.h"
@@ -16,30 +17,27 @@ class TEAM4GAME_API ASHPawn : public APawn
 	GENERATED_BODY()
     
     //This allows the mesh to be set within Unreal
-    UPROPERTY(EditDefaultsOnly)
-    UStaticMeshComponent* mSphereVisual;
+   // UPROPERTY(EditDefaultsOnly)
+    //UStaticMeshComponent* mSphereVisual;
     
     //This allows the mesh to be set within Unreal
-    UPROPERTY(EditAnywhere)
-    UStaticMeshComponent* mGunVisual;
+    //UPROPERTY(EditAnywhere)
+    //UStaticMeshComponent* mGunVisual;
     
-    UPROPERTY(EditAnywhere)
-    UAOWeaponManager* WeaponManager;
+    //UPROPERTY(EditAnywhere)
+    //UAOWeaponManager* WeaponManager;
     
-    UPROPERTY(EditAnywhere)
-    USpringArmComponent* SpringArm;
+    //UPROPERTY(EditAnywhere)
+    //USpringArmComponent* SpringArm;
     
-    UPROPERTY(EditAnywhere)
-    UCameraComponent* Camera;
+    //UPROPERTY(EditAnywhere)
+    //UCameraComponent* Camera;
     
-    UPROPERTY(EditAnywhere)
-    bool mTest = false;
+    UFUNCTION()
+    void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
     
-    UPROPERTY(EditAnywhere)
-    bool mStress = false;
-    
-    UPROPERTY(EditAnywhere)
-    USphereComponent* SphereComponent;
+    //UPROPERTY(EditAnywhere)
+    //USphereComponent* SphereComponent;
     
     
 public:
@@ -49,32 +47,13 @@ public:
 protected:
     // Called when the game starts or when spawned;
 	virtual void BeginPlay() override;
+    UAOWeaponManager* WeaponManager;
 public:	
     /**
      * Called every frame. Sets position of player. This is called automatically.
      * @param DeltaTime - the amount of time the last frame took
      */
 	virtual void Tick(float DeltaTime) override;
-    /**
-     * Used by the player controller to determine if the test mode is set; gets mTest
-     * @return mTest - true/false
-     */
-    bool GetTest();
-    /**
-     * Sets mTest
-     * @param b - the value to set mTest to
-     */
-    void SetTest(bool b);
-    /**
-     * Used by the player controller to determine if the stress mode is set; gets mStress
-     * @return mStress - true/false
-     */
-    bool GetStress();
-    /**
-     * Sets mStress
-     * @param b - the value to set mStress to; true/false
-     */
-    void SetStress(bool b);
     /**
      * Called by player controller to move left/right
      * @param AxisValue - a value -1 - 1 that specifies how much to move
@@ -101,10 +80,14 @@ public:
     void LookMouse(FVector pos);
     //Reference to the movement component
     class USHPawnMovementComponent* MovementComponent;
-
+    class SHPlayerState* PlayerState;
+    
+    
 private:
     //Input variables
     FVector CurrentVelocity;
+    float hitCooldown = 1;
+    float hitCounter = 0;
     
 	
 };

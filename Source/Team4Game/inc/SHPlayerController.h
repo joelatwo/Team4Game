@@ -21,6 +21,8 @@ class TEAM4GAME_API ASHPlayerController : public APlayerController
 public:
     ASHPlayerController();
     virtual void Tick(float DeltaTime) override;
+    void SetTest(bool b);
+    void SetStress(bool b);
 
 protected:
     // Called when the game starts or when spawned

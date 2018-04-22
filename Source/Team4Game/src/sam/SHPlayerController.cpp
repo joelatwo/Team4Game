@@ -13,11 +13,6 @@ ASHPlayerController::ASHPlayerController()
 void ASHPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-    if (GetPawn())
-    {
-        bTest = Cast<ASHPawn>(this->GetPawn())->GetTest();
-        bStress = Cast<ASHPawn>(this->GetPawn())->GetStress();
-    }
 }
 
 void ASHPlayerController::Stress()
@@ -29,17 +24,30 @@ void ASHPlayerController::Stress()
     
 }
 
+void ASHPlayerController::SetStress(bool b)
+{
+    bStress = b;
+}
+
+void ASHPlayerController::SetTest(bool b)
+{
+    bTest = b;
+}
+
 void ASHPlayerController::AIKill() {
     if (GetPawn() == NULL) return;
     float dist = -1;
     for (TActorIterator<ACharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
     {
-        float tempDist = GetPawn()->GetDistanceTo(*ActorItr);
-        //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *ActorItr->GetActorLabel());
-        if (dist == -1 ||  tempDist < dist)
+        if (!(*ActorItr)->IsPendingKill() && (*ActorItr)->IsValidLowLevel())
         {
-            dist = tempDist;
-            target = *ActorItr;
+            float tempDist = GetPawn()->GetDistanceTo(*ActorItr);
+            //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *ActorItr->GetActorLabel());
+            if (dist == -1 ||  tempDist < dist)
+            {
+                dist = tempDist;
+                target = *ActorItr;
+            }
         }
     }
 }
@@ -57,7 +65,14 @@ void ASHPlayerController::Tick(float DeltaTime)
     }
     else
     {
-        if (target == NULL) AIKill();
+        if (target)
+        {
+            if (target->IsPendingKill() || !target->IsValidLowLevel())
+            {
+                target = NULL;
+            }
+        }
+        AIKill();
         if (target != NULL) AimTarget();
     }
 }
@@ -75,31 +90,45 @@ void ASHPlayerController::SetupInputComponent()
 
 void ASHPlayerController::MovePawnX(float AxisValue)
 {
-    Cast<ASHPawn>(this->GetPawn())->Move_XAxis(AxisValue);
-    
+    if (GetPawn())
+        {
+            Cast<ASHPawn>(this->GetPawn())->Move_XAxis(AxisValue);
+        }
 }
 
 void ASHPlayerController::MovePawnY(float AxisValue)
 {
-    Cast<ASHPawn>(this->GetPawn())->Move_YAxis(AxisValue);
+    if (GetPawn())
+    {
+        Cast<ASHPawn>(this->GetPawn())->Move_YAxis(AxisValue);
+        
+    }
 }
 
 void ASHPlayerController::Shoot()
 {
-    Cast<ASHPawn>(this->GetPawn())->Shoot();
+    if (GetPawn())
+    {
+        Cast<ASHPawn>(this->GetPawn())->Shoot();
+    }
 }
 
 void ASHPlayerController::AimTarget()
 {
-    Cast<ASHPawn>(this->GetPawn())->LookDir(target->GetActorLocation());
-    Shoot();
+    if (GetPawn())
+        {
+            Cast<ASHPawn>(this->GetPawn())->LookDir(target->GetActorLocation());
+            Shoot();
+            
+        }
 }
 
 void ASHPlayerController::LookDir()
 {
-    FVector worldPos, dir;
-    this->DeprojectMousePositionToWorld(worldPos, dir);
-    //UE_LOG(LogTemp, Warning, TEXT("worldpos: %s"), *worldPos.ToString());
-    //UE_LOG(LogTemp, Warning, TEXT("dir: %s"), *dir.ToString());
-    Cast<ASHPawn>(this->GetPawn())->LookMouse(dir);
+    if (GetPawn())
+    {
+        FVector worldPos, dir;
+        this->DeprojectMousePositionToWorld(worldPos, dir);
+        Cast<ASHPawn>(this->GetPawn())->LookMouse(dir);
+    }
 }
