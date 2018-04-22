@@ -15,28 +15,36 @@ class TEAM4GAME_API AAOBullet : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	// class constructor
+	// takes no variables
+	// returns reference to new bullet object
 	AAOBullet();
 
 protected:
-	// Called when the game starts or when spawned
+	// Not used. Called when the game starts by UE4.
+	// tales no variables
+	// returns no variabl
 	virtual void BeginPlay() override;
 
-	// Function that initializes the projectile's velocity in the shoot direction.
+	// Function that initializes the projectile's velocity in the shoot direction
+	// takes a FVector ShootDirection as input (this should be direction player is facing)
+	// returns no variable
 	void FireInDirection(const FVector& ShootDirection);
 
 public:	
-	// Called every frame
+	// Not used. Called every frame by UE4.
+	// Input var DeltaTime is the time difference (float) between current frame and last frame
+	// Returns no variable.
 	virtual void Tick(float DeltaTime) override;
 
-	// sphere collision component
+	// sphere collision component used to figure out what bullet has collided with
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		USphereComponent* CollisionComponent;
 	
-	// bullet mesh
+	// bullet mesh component that gives bullet a visible shape and color
 	UStaticMeshComponent* Mesh;
 
-	// Projectile movement component.
+	// Projectile movement component used to move bullet
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 		UProjectileMovementComponent* ProjectileMovementComponent;
 };

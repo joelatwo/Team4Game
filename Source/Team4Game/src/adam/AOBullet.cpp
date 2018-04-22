@@ -26,7 +26,7 @@ AAOBullet::AAOBullet()
 	Mesh->SetupAttachment(RootComponent);
 
 	// Use this component to drive this projectile's movement.
-	float speed = 3000.0f;// pretty fast
+	float speed = 3000.0f;// make bullet pretty fast
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 	ProjectileMovementComponent->InitialSpeed = speed;
@@ -43,18 +43,17 @@ AAOBullet::AAOBullet()
 void AAOBullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AAOBullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-// Function that initializes the projectile's velocity in the shoot direction.
+// set bullet to move in given direction
 void AAOBullet::FireInDirection(const FVector& ShootDirection)
 {
+	// initialize the projectile's velocity in the shoot direction.
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 }
