@@ -7,7 +7,7 @@
 #include "SHPawnTwoGuns.generated.h"
 
 /**
- * 
+ * Adds a second gun to the palyer
  */
 UCLASS()
 class TEAM4GAME_API ASHPawnTwoGuns : public ASHPawn
@@ -16,9 +16,11 @@ class TEAM4GAME_API ASHPawnTwoGuns : public ASHPawn
     
     
 protected:
+    //A second weapon manager that works as the second gun
     UAOWeaponManager* WeaponManager1;
 public:
+    //Create the second weapon manager and position both weapon managers
 	ASHPawnTwoGuns();
-	~ASHPawnTwoGuns();
+    //Shoot both weapons
     virtual void Shoot() override;
 };

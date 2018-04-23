@@ -2,30 +2,19 @@
 
 #include "../../inc/SHPlayerState.h"
 
-SHPlayerState::SHPlayerState()
-{
-}
-
-SHPlayerState::~SHPlayerState()
-{
-}
-
-
 float SHPlayerState::GetHealth()
 {
     return Health;
 }
 
-bool SHPlayerState::SetHealth(float h)
+void SHPlayerState::SetHealth(float HealthValue)
 {
-    Health = h;
-    return true;
+    Health = HealthValue;
 }
 
-bool SHPlayerState::DoDamage(float d)
+bool SHPlayerState::DoDamage(float Damage)
 {
-    Health -= d;
-    UE_LOG(LogTemp, Warning, TEXT("health: %f"), Health);
+    Health -= Damage;
     if (Health < 0)
     {
         return true;

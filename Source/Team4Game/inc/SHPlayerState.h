@@ -11,16 +11,25 @@ class TEAM4GAME_API SHPlayerState
 {
 	
 private:
+    //How much health the player has
     float Health;
 public:
-    SHPlayerState();
-    ~SHPlayerState();
-    //get player health
+    /**
+     * Get the player's health
+     * @return The player's current health value
+     */
     float GetHealth();
-    //set the player health; always returns true
-    bool SetHealth(float h);
-    //subtract an amount from the player health; return true if player dead, false if not dead
-    virtual bool DoDamage(float d);
+    /**
+     * Set how much health the player should ahve
+     * @param HealthValue - how much health the player should have
+     */
+    void SetHealth(float HealthValue);
+    /**
+     * Decrease the player's health. Can be overridden by a decorator
+     * @param Damage - the amount to decrease the player's health by
+     * @return Whether the player is dead (health is less than zero)
+     */
+    virtual bool DoDamage(float Damage);
 	
 	
 };

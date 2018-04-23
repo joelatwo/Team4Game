@@ -16,39 +16,15 @@ class TEAM4GAME_API ASHPawn : public APawn
 {
 	GENERATED_BODY()
     
-    //This allows the mesh to be set within Unreal
-   // UPROPERTY(EditDefaultsOnly)
-    //UStaticMeshComponent* mSphereVisual;
-    
-    //This allows the mesh to be set within Unreal
-    //UPROPERTY(EditAnywhere)
-    //UStaticMeshComponent* mGunVisual;
-    
-    //UPROPERTY(EditAnywhere)
-    //UAOWeaponManager* WeaponManager;
-    
-    //UPROPERTY(EditAnywhere)
-    //USpringArmComponent* SpringArm;
-    
-    //UPROPERTY(EditAnywhere)
-    //UCameraComponent* Camera;
-    
+    //An inherited Unreal function used as a delagate for the OnHit event.
+    //It is called when the pawn's sphere component is hit.
+    //The parameters are used by the event and do not need to be provided by programmers.
     UFUNCTION()
     void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
     
-    //UPROPERTY(EditAnywhere)
-    //USphereComponent* SphereComponent;
-    
-    
 public:
-	// Sets default values for this pawn's properties
-	ASHPawn();
-
-protected:
-    // Called when the game starts or when spawned;
-	virtual void BeginPlay() override;
-    UAOWeaponManager* WeaponManager;
-public:	
+    // Creates the pawn's components and sets their default values
+    ASHPawn();
     /**
      * Called every frame. Sets position of player. This is called automatically.
      * @param DeltaTime - the amount of time the last frame took
@@ -70,24 +46,28 @@ public:
     virtual void Shoot();
     /**
      * Looks at a specified point
-     * @param pos - a vector specifying the point to look at
+     * @param Position - a vector specifying the point to look at
      */
-    void LookDir(FVector pos);
+    void LookDir(FVector Position);
     /**
      * Look at the mouse
-     * @param pos - the direction of the mouse
+     * @param Direction - the direction of the mouse
      */
-    void LookMouse(FVector pos);
-    //Reference to the movement component
+    void LookMouse(FVector Direction);
+    //The object that movement requests are delegated to
     class USHPawnMovementComponent* MovementComponent;
+    //The object that handles managing player health and damage
     class SHPlayerState* PlayerState;
     
+protected:
+    //The object that handles shooting; protected so it can be repositioned by subclasses
+    UAOWeaponManager* WeaponManager;
     
 private:
-    //Input variables
-    FVector CurrentVelocity;
-    float hitCooldown = 1;
-    float hitCounter = 0;
+    //The amount of time the player is invincible after taking damage
+    float HitCooldown = 1;
+    //A counter for how much time has passed since the player took damage
+    float HitCounter = 0;
     
 	
 };

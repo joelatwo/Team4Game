@@ -7,7 +7,7 @@
 #include "SHPawnMovementComponent.generated.h"
 
 /**
- * 
+ * Handles moving the player pawn
  */
 UCLASS()
 class TEAM4GAME_API USHPawnMovementComponent : public UPawnMovementComponent
@@ -16,6 +16,10 @@ class TEAM4GAME_API USHPawnMovementComponent : public UPawnMovementComponent
 	
 	
 public:
+    /**
+     * Every frame, check to see if movement should occur.
+     * This function is called by the engine, so a programmer does not need to call with parameters.
+     */
     virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
     
 	
