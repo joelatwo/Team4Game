@@ -13,6 +13,10 @@ class TEAM4GAME_API ADSEnemy : public APawn
 	//allows for a mesh to be created for our enemies
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* visual;
+	UFUNCTION(BlueprintCallable, Category = "HighScore")
+		static void SendHighScore();
+	UFUNCTION(BlueprintCallable, Category = "HighScore")
+		static void AddToScore();
 public:
 	// Sets default values for this pawn's properties
 	ADSEnemy(const class FObjectInitializer &Initializer);
@@ -28,6 +32,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+private: 
+	int GetScore();
+	void SetScore(int newscore);
+	int CurrScore = 0;
 	
 };

@@ -42,3 +42,20 @@ void ADSEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ADSEnemy::SendHighScore() {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "debug msg");
+	int test = 7;
+	char name[25] = "team4test";
+	int result = system("cmd /c hssclient.exe 52.160.46.238 1 \"Testing	\" 100 & pwd & pause");
+}
+
+void ADSEnemy::AddToScore() {
+
+}
+
+int ADSEnemy::GetScore() {
+	return CurrScore;
+}
+
+void ADSEnemy::SetScore(int newscore) {
+}
