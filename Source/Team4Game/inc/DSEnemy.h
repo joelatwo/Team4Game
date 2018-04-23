@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include <string.h>
 #include "DSEnemy.generated.h"
 
 UCLASS()
@@ -13,10 +14,12 @@ class TEAM4GAME_API ADSEnemy : public APawn
 	//allows for a mesh to be created for our enemies
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* visual;
+	UFUNCTION(BlueprintCallable, Category = "HighScore") //requires score and name
+		static void SendHighScore(int score, FString name);
 	UFUNCTION(BlueprintCallable, Category = "HighScore")
-		static void SendHighScore();
-	UFUNCTION(BlueprintCallable, Category = "HighScore")
-		static void AddToScore();
+		static int AddEnemy();
+	UFUNCTION(BlueprintCallable, Category = "HighScore") //returns current high score
+		static int KilledEnemy();
 public:
 	// Sets default values for this pawn's properties
 	ADSEnemy(const class FObjectInitializer &Initializer);
@@ -31,10 +34,5 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-private: 
-	int GetScore();
-	void SetScore(int newscore);
-	int CurrScore = 0;
 	
 };
