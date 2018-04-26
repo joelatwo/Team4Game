@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+#include "MAMap.h"
+#include "DSEnemy.h"
 #include "CHGameManager.generated.h"
 
 /**
@@ -14,9 +16,9 @@ class TEAM4GAME_API ACHGameManager : public AGameStateBase
 {
 	GENERATED_BODY()
 
-private:
-	int level;
 public:
+	void beginPlay();
+private:
 	void generateMap();
 	void spawnEnemies();
 	void initiateAssets();
