@@ -19,6 +19,7 @@ AAOBullet::AAOBullet()
 	// set root component to be the collision component
 	RootComponent = CollisionComponent;
 
+	// use Static Mesh component for a basic sphere mesh
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bullet mesh"));
 	
 	auto MeshAsset = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/StarterContent/Props/MaterialSphere.MaterialSphere'"));

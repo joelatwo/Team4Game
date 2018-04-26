@@ -4,6 +4,8 @@
 #include "AOBullet.h"
 #include "Engine/World.h"
 #include "UObject/Class.h"
+#include "../Source/Team4Game/inc/AOPlayerWeapons.h"
+
 
 // Sets default values for this component's properties
 UAOWeaponManager::UAOWeaponManager()
@@ -11,10 +13,13 @@ UAOWeaponManager::UAOWeaponManager()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+	// get weapons container
+	weapons = AOPlayerWeapons::GetInstance();
 }
 
 
 // Shoot a bullet
+// TODO: make bullet spawn slightly in front of player so it doesn't move player
 void UAOWeaponManager::Shoot()
 {
 	// spawn AAOBullet object at gun pointing same direction as gun

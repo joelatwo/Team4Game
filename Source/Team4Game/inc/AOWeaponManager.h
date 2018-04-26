@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "AOPlayerWeapons.h"
+#include "../Source/Team4Game/inc/AOPlayerWeapons.h"
 #include "AOWeaponManager.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TEAM4GAME_API UAOWeaponManager : public USceneComponent
@@ -38,5 +39,8 @@ public:
 	// Returns no variables.
 	UFUNCTION()
 	void Shoot();
+
+private:
+	AOPlayerWeapons * weapons;
 	
 };
