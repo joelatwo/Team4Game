@@ -13,7 +13,7 @@ void ACHGameManager::beginPlay()
 void ACHGameManager::generateMap()
 {
 	AMAMap Map;
-	Map.AMAMap::AMAMap();		// call map generation	
+	//Map.AMAMap::AMAMap();		// call map generation	
 }
 
 void ACHGameManager::spawnEnemies()

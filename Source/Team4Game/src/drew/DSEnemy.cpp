@@ -51,3 +51,7 @@ int ADSEnemy::AddToScore(int scoreToAdd) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Score is: %d"), CurrScore));
 	return CurrScore;
 }
+
+void ADSEnemy::ResetScore() {
+    CurrScore = 0;
+}
