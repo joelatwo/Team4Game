@@ -31,7 +31,7 @@ void UGameManager::RespawnPlayer()
 {
     ASHPawn* pawn = Cast<ASHPawn>(controller->GetPawn());
     pawn->SetActorLocation(FVector(710,30,250));
-    pawn->PS->SetLife(1000);
+    pawn->PS->SetLife(500);
     ADSEnemy::ResetScore();
 }
 

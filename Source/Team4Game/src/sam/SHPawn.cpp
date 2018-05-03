@@ -64,7 +64,7 @@ ASHPawn::ASHPawn()
     MovementComponent->UpdatedComponent = RootComponent;
     
     //Set up the player state object and give the player some health
-    PS = new SHHealth(1000);
+    PS = new SHHealth(500);
     
     // Inititalize the hit information. The player is invincible for one second after getting hit.
     HitCounter = 0;
