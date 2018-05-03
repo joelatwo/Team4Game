@@ -5,6 +5,7 @@
 
 class TEAM4GAME_API AOWeapon {
 public:
+    AOWeapon();
 	AOWeapon(float Damage);
 	virtual float GetDamage();
 private:

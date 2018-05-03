@@ -8,8 +8,8 @@ AAOBullet::AAOBullet()
 {
 	// bullet disappears after 3 seconds
 	InitialLifeSpan = 3.0f;
-
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// make sphere for collision representation
@@ -19,6 +19,9 @@ AAOBullet::AAOBullet()
 	// set root component to be the collision component
 	RootComponent = CollisionComponent;
 
+    SetActorScale3D(FVector(0.2f,0.2f,0.2f));
+    
+    
 	// use Static Mesh component for a basic sphere mesh
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bullet mesh"));
 	

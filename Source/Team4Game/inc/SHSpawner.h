@@ -37,6 +37,7 @@ class TEAM4GAME_API ASHSpawner : public AActor
     UPROPERTY(EditAnywhere)
     bool bSpawnDefaultPawn = true;
 public:
+    ~ASHSpawner();
     /**
      * Is stress mode activated?
      * @return stress mode activated

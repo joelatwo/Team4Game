@@ -64,7 +64,7 @@ ASHPawn::ASHPawn()
     MovementComponent->UpdatedComponent = RootComponent;
     
     //Set up the player state object and give the player some health
-    PlayerState = new SHHealth(1000);
+    PS = new SHHealth(1000);
     
     // Inititalize the hit information. The player is invincible for one second after getting hit.
     HitCounter = 0;
@@ -133,9 +133,9 @@ void ASHPawn::OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor
     //If enough time has passed since the last time a hit occured and the hit was an enemy...
     if (HitCounter > HitCooldown && OtherActor->GetActorLabel().Contains(TEXT("DSEnemy")))
     {
-        //Reset counter, take some damage
+ //Reset counter, take some damage
         HitCounter = 0;
-        bool Dead = PlayerState->DoDamage(250);
+        bool Dead = PS->DoDamage(250);
         if (Dead)
         {
             //GameOver

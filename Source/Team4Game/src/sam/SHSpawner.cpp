@@ -9,6 +9,15 @@
 
 ASHSpawner* ASHSpawner::Instance = 0;
 
+
+ASHSpawner::~ASHSpawner()
+{
+    if (Instance == this)
+    {
+        Instance = NULL;
+    }
+}
+
 // Called when the game starts
 void ASHSpawner::BeginPlay()
 {

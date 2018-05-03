@@ -26,12 +26,14 @@ class TEAM4GAME_API ADSEnemy : public APawn
 	//Return the total score after modification
 	UFUNCTION(BlueprintCallable, Category = "HighScore") 
 		static int AddToScore(int scoreToAdd);
-    UFUNCTION(BlueprintCallable, Category = "HighScore")
-        static void ResetScore();
+
 public:
 	// Sets default values for this pawn's properties
 	// Used generically by Unreal.
 	ADSEnemy(const class FObjectInitializer &Initializer);
+    
+    UFUNCTION(BlueprintCallable, Category = "HighScore")
+    static void ResetScore();
 
 protected:
 	// Called when the game starts or when spawned

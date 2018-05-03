@@ -14,7 +14,7 @@ ASHPawnTwoGuns::ASHPawnTwoGuns()
     WeaponManager1->RelativeLocation = FVector(25.f, -50.f, 0);
     
     //Add some armor by decorating PlayerState
-    PlayerState = new SHArmor(50.0, PlayerState);
+    //PlayerState = new SHArmor(50.0, PlayerState);
 }
 
 void ASHPawnTwoGuns::Description()

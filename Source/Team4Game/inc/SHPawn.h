@@ -61,8 +61,7 @@ public:
     void LookMouse(FVector Direction);
     //The object that movement requests are delegated to; performs the actual movement of the pawn
     class USHPawnMovementComponent* MovementComponent;
-    //The object that handles managing player health and damage
-    class SHPlayerState* PlayerState;
+    class SHPlayerState* PS;
     
 protected:
     //The object that handles shooting; protected so it can be repositioned by subclasses
