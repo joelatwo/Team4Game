@@ -2,25 +2,18 @@
 
 #include "../../inc/SHPlayerController.h"
 #include "../../inc/SHPawn.h"
-#include "../../inc/SHPlayerCameraManager.h"
 #include "EngineUtils.h"
 
 ASHPlayerController::ASHPlayerController()
 {
+    //Call Tick() every frame
     PrimaryActorTick.bCanEverTick = true;
-}
-
-void ASHPlayerController::BeginPlay()
-{
-    Super::BeginPlay();
 }
 
 void ASHPlayerController::Stress()
 {
     MovePawnY(FMath::FRandRange(-1.0,1.0));
     MovePawnX(FMath::FRandRange(-1.0,1.0));
-    //if (!test)
-    //    Shoot();
     
 }
 
@@ -55,16 +48,21 @@ void ASHPlayerController::AIKill() {
 void ASHPlayerController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    //If stress mode, call Stress() to move pawn randomly
     if (bStress)
     {
         Stress();
     }
+    //If not in test mode, make pawn look at mouse
     if (!bTest)
     {
         LookDir();
     }
     else
     {
+        //Find a target
+        AIKill();
+        //If a target has been found, check to make sure it's valid
         if (target)
         {
             if (target->IsPendingKill() || !target->IsValidLowLevel())
@@ -72,7 +70,7 @@ void ASHPlayerController::Tick(float DeltaTime)
                 target = NULL;
             }
         }
-        AIKill();
+        //Aim at the target and shoot at it, if a target is available
         if (target != NULL) AimTarget();
     }
 }
@@ -80,8 +78,10 @@ void ASHPlayerController::Tick(float DeltaTime)
 void ASHPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
+    //If testing mode is on, then player input is not accepted, so don't set it up
     if (!bTest)
     {
+        //Set up movement and shooting input
         InputComponent->BindAxis("MoveX", this, &ASHPlayerController::MovePawnX);
         InputComponent->BindAxis("MoveY", this, &ASHPlayerController::MovePawnY);
         InputComponent->BindAction("Shoot", IE_Pressed, this, &ASHPlayerController::Shoot);
@@ -90,6 +90,7 @@ void ASHPlayerController::SetupInputComponent()
 
 void ASHPlayerController::MovePawnX(float AxisValue)
 {
+    //Ask the pawn to move left/right
     if (GetPawn())
         {
             Cast<ASHPawn>(this->GetPawn())->Move_XAxis(AxisValue);
@@ -100,6 +101,7 @@ void ASHPlayerController::MovePawnY(float AxisValue)
 {
     if (GetPawn())
     {
+        //Ask the pawn to move up/down
         Cast<ASHPawn>(this->GetPawn())->Move_YAxis(AxisValue);
         
     }
@@ -109,6 +111,7 @@ void ASHPlayerController::Shoot()
 {
     if (GetPawn())
     {
+        //Ask the pawn to shoot
         Cast<ASHPawn>(this->GetPawn())->Shoot();
     }
 }
@@ -119,7 +122,6 @@ void ASHPlayerController::AimTarget()
         {
             Cast<ASHPawn>(this->GetPawn())->LookDir(target->GetActorLocation());
             Shoot();
-            
         }
 }
 
@@ -127,6 +129,7 @@ void ASHPlayerController::LookDir()
 {
     if (GetPawn())
     {
+        //Find the mouse position and have the pawn look at it
         FVector worldPos, dir;
         this->DeprojectMousePositionToWorld(worldPos, dir);
         Cast<ASHPawn>(this->GetPawn())->LookMouse(dir);

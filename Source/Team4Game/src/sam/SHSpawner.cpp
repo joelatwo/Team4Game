@@ -7,34 +7,40 @@
 #include "Kismet/GameplayStatics.h"
 #include "../../inc/SHPawnTwoGuns.h"
 
-ASHSpawner* ASHSpawner::instance = 0;
-
-// Sets default values for this component's properties
-ASHSpawner::ASHSpawner()
-{
-    
-}
-
+ASHSpawner* ASHSpawner::Instance = 0;
 
 // Called when the game starts
 void ASHSpawner::BeginPlay()
 {
     Super::BeginPlay();
     
-    if (!instance)
+    /**
+     * Set up the singleton. I cannot use the traditional lazily constructed method.
+     * Since this is an Actor class, it has to be created using the SpawnObject function
+     * or by being dragged into the editor.
+     * This means that you can just create it with new and that it always has to
+     * be allowed to be created or crashing happens.
+     * Thus, if the instance variable is null or invalid, set the instance to this object.
+     * Otherwise, destroy this object.
+     */
+    if (!Instance || Instance->IsPendingKill() || !Instance->IsValidLowLevel())
     {
-        instance = this;
+        Instance = this;
     }
     else
     {
         Destroy();
+        return;
     }
+    //Set the test and stress values in the player controller
     ASHPlayerController* controller = Cast<ASHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
     if (controller) {
-        controller->SetTest(mTest);
-        controller->SetStress(mStress);
+        controller->SetTest(bTest);
+        controller->SetStress(bStress);
     }
-    AMAMap *LevelMap = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
+    //Spawn the map
+    Map = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
+    //Spawn the pawn.
     if (bSpawnDefaultPawn)
     {
         SpawnDefaultPawn();
@@ -45,24 +51,51 @@ void ASHSpawner::BeginPlay()
     }
 }
 
-bool ASHSpawner::GetStress(bool b)
+bool ASHSpawner::GetStress()
 {
-    return mStress;
+    return bStress;
 }
 
-bool ASHSpawner::GetTest(bool b)
+bool ASHSpawner::GetTest()
 {
-    return mTest;
+    return bTest;
 }
 
-void ASHSpawner::SetStress(bool b)
+void ASHSpawner::SetStress(bool StressValue)
 {
-    mStress = b;
+    bStress = StressValue;
+    ASHPlayerController* controller = Cast<ASHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+    if (controller) {
+        controller->SetStress(StressValue);
+    }
 }
 
-void ASHSpawner::SetTest(bool b)
+void ASHSpawner::SetTest(bool TestValue)
 {
-    mTest = b;
+    bTest = TestValue;
+    ASHPlayerController* controller = Cast<ASHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+    if (controller) {
+        controller->SetTest(TestValue);
+    }
+}
+
+void ASHSpawner::NewMap()
+{
+    Map->Destroy();
+    Map = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
+}
+
+void ASHSpawner::SpawnPawn()
+{
+    //Spawn the pawn.
+    if (bSpawnDefaultPawn)
+    {
+        SpawnDefaultPawn();
+    }
+    else
+    {
+        SpawnTwoGunPawn();
+    }
 }
 
 void ASHSpawner::SpawnDefaultPawn()
@@ -89,6 +122,6 @@ void ASHSpawner::SpawnTwoGunPawn()
 
 ASHSpawner* ASHSpawner::GetInstance()
 {
-    return instance;
+    return Instance;
 }
 
