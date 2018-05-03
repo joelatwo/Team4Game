@@ -2,25 +2,19 @@
 
 #include "../../inc/SHArmor.h"
 
-SHArmor::SHArmor(float ArmorValue, SHPlayerState* State)
+SHArmor::SHArmor(float armorValue, SHPlayerState* playerState)
 {
-    this->Armor = ArmorValue;
-    this->PlayerState = State;
+    this->armor = armorValue;
+    this->playerState = playerState;
     
 }
 
-void SHArmor::SetArmor(float ArmorValue)
+SHArmor::~SHArmor()
 {
-    Armor = ArmorValue;
 }
 
-float SHArmor::GetArmor()
+bool SHArmor::DoDamage(float d)
 {
-    return Armor;
-}
-
-bool SHArmor::DoDamage(float Damage)
-{
-    Damage -= this->Armor;
-    return PlayerState->DoDamage(Damage);
+    d -= this->armor;
+    return playerState->DoDamage(d);
 }

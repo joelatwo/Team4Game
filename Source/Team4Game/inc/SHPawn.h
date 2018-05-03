@@ -16,19 +16,39 @@ class TEAM4GAME_API ASHPawn : public APawn
 {
 	GENERATED_BODY()
     
-    //An inherited Unreal function used as a delagate for the OnHit event.
-    //It is called when the pawn's sphere component is hit.
-    //The parameters are used by the event and do not need to be provided by programmers.
+    //This allows the mesh to be set within Unreal
+   // UPROPERTY(EditDefaultsOnly)
+    //UStaticMeshComponent* mSphereVisual;
+    
+    //This allows the mesh to be set within Unreal
+    //UPROPERTY(EditAnywhere)
+    //UStaticMeshComponent* mGunVisual;
+    
+    //UPROPERTY(EditAnywhere)
+    //UAOWeaponManager* WeaponManager;
+    
+    //UPROPERTY(EditAnywhere)
+    //USpringArmComponent* SpringArm;
+    
+    //UPROPERTY(EditAnywhere)
+    //UCameraComponent* Camera;
+    
     UFUNCTION()
     void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
     
+    //UPROPERTY(EditAnywhere)
+    //USphereComponent* SphereComponent;
+    
+    
 public:
-    // Creates the pawn's components and sets their default values
-    ASHPawn();
-    /**
-     * Prints a description string. Shamelessly used for static binding.
-     */
-    void Description();
+	// Sets default values for this pawn's properties
+	ASHPawn();
+
+protected:
+    // Called when the game starts or when spawned;
+	virtual void BeginPlay() override;
+    UAOWeaponManager* WeaponManager;
+public:	
     /**
      * Called every frame. Sets position of player. This is called automatically.
      * @param DeltaTime - the amount of time the last frame took
@@ -45,34 +65,29 @@ public:
      */
     void Move_YAxis(float AxisValue);
     /**
-     * Requests that a bullet is shot by the weapon manager.
-     * Virutal so that it can be overwritted by subclasses to add additional wepain functionality.
+     * Requests that a bullet is shot
      */
     virtual void Shoot();
     /**
-     * Rotates pawn to look at a specific point. This is used in testing mode to look at the targeted enemy.
-     * @param Position - a vector specifying the point to look at
+     * Looks at a specified point
+     * @param pos - a vector specifying the point to look at
      */
-    void LookDir(FVector Position);
+    void LookDir(FVector pos);
     /**
-     * Rotates pawn to look at the mouse position.
-     * @param Direction - the direction of the mouse
+     * Look at the mouse
+     * @param pos - the direction of the mouse
      */
-    void LookMouse(FVector Direction);
-    //The object that movement requests are delegated to; performs the actual movement of the pawn
+    void LookMouse(FVector pos);
+    //Reference to the movement component
     class USHPawnMovementComponent* MovementComponent;
-    //The object that handles managing player health and damage
     class SHPlayerState* PlayerState;
     
-protected:
-    //The object that handles shooting; protected so it can be repositioned by subclasses
-    UAOWeaponManager* WeaponManager;
     
 private:
-    //The amount of time the player is invincible after taking damage
-    float HitCooldown = 1;
-    //A counter for how much time has passed since the player took damage
-    float HitCounter = 0;
+    //Input variables
+    FVector CurrentVelocity;
+    float hitCooldown = 1;
+    float hitCounter = 0;
     
 	
 };

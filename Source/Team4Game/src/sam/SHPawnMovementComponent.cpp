@@ -12,7 +12,7 @@ void USHPawnMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Ti
         return;
     }
     
-    // Get (and then clear) the movement vector that we set in ASHPawn
+    // Get (and then clear) the movement vector that we set in ACollidingPawn::Tick
     FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * 500;
     if (!DesiredMovementThisFrame.IsNearlyZero())
     {
