@@ -35,9 +35,11 @@ void ADSEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void ADSEnemy::SendHighScore(int score, FString name) {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "debug msg");
-	int test = 7; //This path needs to change based on who is running the computer due to issues with platforms and github
-	//int result = system("cmd /c C:\\Users\\idfkname\\Documents\\GitHub\\Team4Game\\Source\\Team4Game\\src\\drew\\hssclient.exe 52.160.46.238 1 \"" + name + "\" " + score + " & pwd & pause");
+	const FString string = FString::Printf(TEXT("cmd /c C:\\Users\\Frostbyte\\Documents\\GitHub\\Team4Game\\Source\\Team4Game\\src\\drew\\hssclient.exe 52.160.46.238 1 %s %d & pause"), *name, score);
+	auto ansi_string = StringCast<ANSICHAR>(*string);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, string);
+	const TCHAR* Ineedhelp = *string;
+	//FPlatformProcess::CreateProc(Ineedhelp,nullptr,true,false,false,nullptr,0,nullptr,nullptr);
 }
 
 int ADSEnemy::ChangeEnemyAmount(int amountToChange) { //Keep EnemyCount known only to the function itself
