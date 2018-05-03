@@ -3,14 +3,25 @@
 #include "../../inc/CHGameManager.h"
 
 
+void ACHGameManager::beginPlay()
+{
+	generateMap();
+	spawnEnemies();
+	initiateAssets();
+}
+
 void ACHGameManager::generateMap()
 {
-	// MAMap *levelMap = GetWorld().SpawnActor<MAMAP>();		// call map generation	
+	AMAMap Map;
+	//Map.AMAMap::AMAMap();		// call map generation	
 }
 
 void ACHGameManager::spawnEnemies()
 {
-	// spawn enemies
+	//ADSEnemy Enemy1;
+	//ADSEnemy Enemy2;
+	//Enemy1.ADSEnemy::ADSEnemy();
+	//Enemy2.ADSEnemy::ADSEnemy();
 }
 
 void ACHGameManager::initiateAssets()
