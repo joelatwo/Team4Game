@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../../inc/SHPawn.h"
-#include "../../inc/SHArmor.h"
+#include "../../inc/SHHealth.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "../../inc/SHPawnMovementComponent.h"
 
@@ -36,9 +36,11 @@ ASHPawn::ASHPawn()
     USpringArmComponent* SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
     SpringArm->SetupAttachment(RootComponent);
     // Position arm and set some default setting
+    //The following two lines keep the camera from rotating with the player
+    //Since the player spins a lot, that would probably make players vomit
     SpringArm->bUsePawnControlRotation = false;
-    SpringArm->bDoCollisionTest = false;
     SpringArm->bAbsoluteRotation = true;
+    SpringArm->bDoCollisionTest = false;
     SpringArm->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
     SpringArm->TargetArmLength = 1200.0f;
     SpringArm->bEnableCameraLag = true;
@@ -47,6 +49,7 @@ ASHPawn::ASHPawn()
     
     // Create a camera and attach to the spring arm
     UCameraComponent* Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
+    //Absolute rotation keeps it from rotating with the player
     Camera->bAbsoluteRotation = true;
     Camera->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
     Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
@@ -60,15 +63,18 @@ ASHPawn::ASHPawn()
     MovementComponent = CreateDefaultSubobject<USHPawnMovementComponent>(TEXT("PawnMovementComponent"));
     MovementComponent->UpdatedComponent = RootComponent;
     
-    //Set up the player state object and decorate it with some armor
-    PlayerState = new SHPlayerState;
-    PlayerState->SetHealth(1000);
-    PlayerState = new SHArmor(50.0, PlayerState);
+    //Set up the player state object and give the player some health
+    PlayerState = new SHHealth(1000);
     
-    // Inititalize the hit information
+    // Inititalize the hit information. The player is invincible for one second after getting hit.
     HitCounter = 0;
     HitCooldown = 1;
     
+}
+
+void ASHPawn::Description()
+{
+    UE_LOG(LogTemp, Warning, TEXT("A pawn!"));
 }
 
 void ASHPawn::Tick(float DeltaTime)

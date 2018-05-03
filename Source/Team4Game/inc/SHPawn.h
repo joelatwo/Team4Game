@@ -26,6 +26,10 @@ public:
     // Creates the pawn's components and sets their default values
     ASHPawn();
     /**
+     * Prints a description string. Shamelessly used for static binding.
+     */
+    void Description();
+    /**
      * Called every frame. Sets position of player. This is called automatically.
      * @param DeltaTime - the amount of time the last frame took
      */
@@ -41,20 +45,21 @@ public:
      */
     void Move_YAxis(float AxisValue);
     /**
-     * Requests that a bullet is shot
+     * Requests that a bullet is shot by the weapon manager.
+     * Virutal so that it can be overwritted by subclasses to add additional wepain functionality.
      */
     virtual void Shoot();
     /**
-     * Looks at a specified point
+     * Rotates pawn to look at a specific point. This is used in testing mode to look at the targeted enemy.
      * @param Position - a vector specifying the point to look at
      */
     void LookDir(FVector Position);
     /**
-     * Look at the mouse
+     * Rotates pawn to look at the mouse position.
      * @param Direction - the direction of the mouse
      */
     void LookMouse(FVector Direction);
-    //The object that movement requests are delegated to
+    //The object that movement requests are delegated to; performs the actual movement of the pawn
     class USHPawnMovementComponent* MovementComponent;
     //The object that handles managing player health and damage
     class SHPlayerState* PlayerState;

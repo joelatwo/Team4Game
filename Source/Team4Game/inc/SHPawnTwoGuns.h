@@ -19,6 +19,10 @@ protected:
     //A second weapon manager that works as the second gun
     UAOWeaponManager* WeaponManager1;
 public:
+    /**
+     * Prints a description string. Shamelessly used for static binding.
+     */
+    void Description();
     //Create the second weapon manager and position both weapon managers
 	ASHPawnTwoGuns();
     //Shoot both weapons

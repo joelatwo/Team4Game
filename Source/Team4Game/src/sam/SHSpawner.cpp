@@ -39,7 +39,7 @@ void ASHSpawner::BeginPlay()
         controller->SetStress(bStress);
     }
     //Spawn the map
-    AMAMap *LevelMap = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
+    Map = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
     //Spawn the pawn.
     if (bSpawnDefaultPawn)
     {
@@ -76,6 +76,25 @@ void ASHSpawner::SetTest(bool TestValue)
     ASHPlayerController* controller = Cast<ASHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
     if (controller) {
         controller->SetTest(TestValue);
+    }
+}
+
+void ASHSpawner::NewMap()
+{
+    Map->Destroy();
+    Map = GetWorld()->SpawnActor<AMAMap>(FVector(-1250,-1250,100),FRotator(0,0,0),FActorSpawnParameters());
+}
+
+void ASHSpawner::SpawnPawn()
+{
+    //Spawn the pawn.
+    if (bSpawnDefaultPawn)
+    {
+        SpawnDefaultPawn();
+    }
+    else
+    {
+        SpawnTwoGunPawn();
     }
 }
 

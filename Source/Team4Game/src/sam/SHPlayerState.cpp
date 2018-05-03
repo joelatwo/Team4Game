@@ -2,25 +2,12 @@
 
 #include "../../inc/SHPlayerState.h"
 
-float SHPlayerState::GetHealth()
+float SHPlayerState::GetLife()
 {
-    return Health;
+    return Life;
 }
 
-void SHPlayerState::SetHealth(float HealthValue)
+void SHPlayerState::SetLife(float LifeValue)
 {
-    Health = HealthValue;
-}
-
-bool SHPlayerState::DoDamage(float Damage)
-{
-    Health -= Damage;
-    if (Health < 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    Life = LifeValue;
 }

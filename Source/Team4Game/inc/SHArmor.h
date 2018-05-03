@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SHPlayerState.h"
+#include "SHPlayerStateDecorator.h"
 
 /**
  * A decorator for SHPlayerState.
  * Using a decorator allows flexibility to add new stats to the player, like armor, resistance, etc.
  */
-class TEAM4GAME_API SHArmor : public SHPlayerState
+class TEAM4GAME_API SHArmor : public SHPlayerStateDecorator
 {
 public:
     /**

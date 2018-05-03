@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../../inc/SHPawnTwoGuns.h"
+#include "../../inc/SHArmor.h"
 
 ASHPawnTwoGuns::ASHPawnTwoGuns()
 {
@@ -11,6 +12,14 @@ ASHPawnTwoGuns::ASHPawnTwoGuns()
     //Position both guns
     WeaponManager->RelativeLocation = FVector(25.f, 50.f, 0);
     WeaponManager1->RelativeLocation = FVector(25.f, -50.f, 0);
+    
+    //Add some armor by decorating PlayerState
+    PlayerState = new SHArmor(50.0, PlayerState);
+}
+
+void ASHPawnTwoGuns::Description()
+{
+    UE_LOG(LogTemp, Warning, TEXT("A pawn with two guns!"));
 }
 
 void ASHPawnTwoGuns::Shoot()
